@@ -3,13 +3,13 @@ version: 2.1
 jobs: 
   build:
     docker: 
-      - image: gridlabd/slac-master
+      - image: gridlabd/slac-master:latest
     steps: 
       - checkout 
       - run: 
         name: Run version check
         command: |
-          gridlabd --version
+          echo 'Hello World!'
 
 # Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
 #orbs:
