@@ -7,6 +7,13 @@ jobs:
     steps: 
       - checkout 
       - run: 
-        name: Run version check
-        command: |
-          echo 'Hello World!'
+          name: Run version check
+          command: |
+            echo 'Hello World!'
+            gridlabd --validate
+      - run:
+          name: Git origin check 
+          command: |
+            echo "Checking origin"
+            gridlabd --origin
+            
