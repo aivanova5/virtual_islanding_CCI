@@ -12,6 +12,9 @@
 #define WEATHER=CA-Bakersfield_Meadows_Field.tmy3
 #define TIMEZONE=US/CA/Los Angeles
 
+//#define VOLTDUMP
+//#define CURRDUMP
+
 #ifdef TIMEZONE
 clock {
 	timezone ${TIMEZONE};
@@ -80,27 +83,27 @@ object currdump {
 
 /// OVERHEAD LINE CONDUCTORS
 object overhead_line_conductor {
-	name olc301c;	//336,400 26/7 ACSR
+	name olc_default;	//336,400 26/7 ACSR
 	geometric_mean_radius 0.0244;
 	resistance 0.306;
 	diameter 0.721;
 }
 /// UNDERGROUND LINE CONDUCTORS
-object underground_line_conductor {
-	name ulc312;	//1/0 AA, CN
-	outer_diameter 1.06;
-	conductor_gmr 0.0111;
-	conductor_diameter 0.368;
-	conductor_resistance 0.97;
-	neutral_gmr 0.00208;
-	neutral_resistance 14.8722;
-	neutral_diameter 0.0640837;
-	neutral_strands 16.0;
-}
+//object underground_line_conductor {
+//	name ulc_default;	//1/0 AA, CN
+//	outer_diameter 1.06;
+//	conductor_gmr 0.0111;
+//	conductor_diameter 0.368;
+//	conductor_resistance 0.97;
+//	neutral_gmr 0.00208;
+//	neutral_resistance 14.8722;
+//	neutral_diameter 0.0640837;
+//	neutral_strands 16.0;
+//}
 
 //Transformer configurations
 object transformer_configuration {
-	name tc500;
+	name tc_default;
 	connect_type DELTA_DELTA;
 	install_type PADMOUNT;
 	power_rating 150.0 kVA;
@@ -112,7 +115,7 @@ object transformer_configuration {
 
 // Regulator configs
 object regulator_configuration {
-	name rc501;
+	name rc_default;
 	connect_type WYE_WYE;
 	band_center 2400.000;
 	band_width 40.0;
@@ -137,8 +140,17 @@ object regulator_configuration {
 //
 // Power system topology
 //
-//Pure nodes
 
+//Transformers 
+object transformer {
+	name tf_main;
+	phases ABCN;
+	from node_001;
+	to node_002;
+	configuration tf_default;
+}
+
+//Pure nodes
 object node {
 	name node_001;
 	phases ABCN;
@@ -151,7 +163,7 @@ object node {
 	phases ABCN;
 	nominal_voltage 2401.7771;
 }
-//TF between node 2 and 3
+
 object node {
 	name node_003;
 	phases ABCN;
@@ -212,6 +224,43 @@ object node {
 	nominal_voltage 2401.7771;
 }
 
+//Switches 
+object switch {
+	name sw_101;
+	from node_201; 
+	to node_101;
+	phases ABCN;
+	status CLOSED;
+}
+object switch {
+	name sw_301;
+	from node_201; 
+	to node_301;
+	phases ABCN;
+	status CLOSED;
+}
+object switch {
+	name sw_202;
+	from node_201; 
+	to node_202;
+	phases ABCN;
+	status CLOSED;
+}
+
+object switch {
+	name sw_103;
+	from node_201; 
+	to node_203;
+	phases ABCN;
+	status OPEN;
+}
+object switch {
+	name sw_303;
+	from node_203; 
+	to node_301;
+	phases ABCN;
+	status OPEN;
+}
 
 //Pure spot loads
 
@@ -224,32 +273,139 @@ object node {
 //}
 
 // Lines 
+object overhead_line {
+	name line_002_201;
+	phases ABCN;
+	from node_002;
+	to node_201;
+	length 175.00;
+	configuration olc_default;
+}
 
 object overhead_line {
-	name line1to2;
-	phases BN;
-	from load_1;
-	to load_2;
+	name line_node201_sw101;
+	phases ABCN;
+	from node_201;
+	to sw_101;
 	length 175.00;
-	configuration lc310;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_sw101_node101;
+	phases ABCN;
+	from sw_101;
+	to node_101;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node101_node102;
+	phases ABCN;
+	from node_101;
+	to node_102;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node102_node103;
+	phases ABCN;
+	from node_102;
+	to node_103;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node103_sw103;
+	phases ABCN;
+	from node_103;
+	to sw_103;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_sw103_node203;
+	phases ABCN;
+	from sw_103;
+	to node_203;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node201_sw202;
+	phases ABCN;
+	from node_201;
+	to sw_202;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node202_node203;
+	phases ABCN;
+	from node_202;
+	to node_203;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node201_sw301;
+	phases ABCN;
+	from node_201;
+	to sw_301;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node301_node302;
+	phases ABCN;
+	from node_301;
+	to node_302;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_node303_sw303;
+	phases ABCN;
+	from node_303;
+	to sw_303;
+	length 175.00;
+	configuration olc_default;
+}
+
+object overhead_line {
+	name line_sw303_node203;
+	phases ABCN;
+	from sw303;
+	to node_203;
+	length 175.00;
+	configuration olc_default;
 }
 
 //Capacitors
 
-object capacitor {
-	name cap_83;
-	parent load_83;
-	phases ABC;
-	phases_connected ABC;
-	nominal_voltage 2401.7771;
-	control MANUAL;
-	capacitor_A 200000.0000;
-	capacitor_B 200000.0000;
-	capacitor_C 200000.0000;
-	switchA OPEN;
-	switchB OPEN;
-	switchC OPEN;
-};
+//object capacitor {
+//	name cap_83;
+//	parent load_83;
+//	phases ABC;
+//	phases_connected ABC;
+//	nominal_voltage 2401.7771;
+//	control MANUAL;
+//	capacitor_A 200000.0000;
+//	capacitor_B 200000.0000;
+//	capacitor_C 200000.0000;
+//	switchA OPEN;
+//	switchB OPEN;
+//	switchC OPEN;
+//};
 
 
 ///////////////////////////////////////////////////////

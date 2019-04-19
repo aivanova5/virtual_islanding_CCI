@@ -9,10 +9,10 @@ jobs:
       - run: 
           name: Run version check
           command: |
-            echo 'Hello World!'
-            gridlabd --validate
-      - run:
-          name: Git origin check 
-          command: |
-            echo "Checking origin"
+            gridlabd --version
             gridlabd --origin
+      - run:
+          name: Run the simulation
+          command: |
+            gridlabd model.glm
+            echo "Model finished"
