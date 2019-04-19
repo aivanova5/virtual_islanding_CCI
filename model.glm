@@ -9,7 +9,7 @@
 #define STARTTIME=2018-01-01 00:00:00 PST
 #define STOPTIME=2019-01-01 00:00:00 PST
 
-#define WEATHER=CA-Bakersfield_Meadows_Field.tmy3
+#define WEATHER=WA-Yakima.tmy3
 #define TIMEZONE=US/CA/Los Angeles
 
 //#define VOLTDUMP
@@ -489,24 +489,24 @@ object triplex_meter:..500 {
 //
 // Switch coordinator
 //
-object switch_coordinator {
-	name scheme_1;
-	connect sw13to152;
-	connect sw18to135;
-	connect sw54to94;
-	connect sw60to160;
-	connect sw61to6101;
-	connect sw97to197;
-	connect sw151to300;
-	connect sw15001to149;
-	connect sw250to251;
-	connect sw300to350;
-	connect sw450to451;
-	connect sw95to195;
-	object recorder {
-		file "switch_output.csv";
-		property "armed,status";
-		interval -1;
-	};
+//object switch_coordinator {
+//	name scheme_1;
+//	connect sw13to152;
+//	connect sw18to135;
+//	connect sw54to94;
+//	connect sw60to160;
+//	connect sw61to6101;
+//	connect sw97to197;
+//	connect sw151to300;
+//	connect sw15001to149;
+//	connect sw250to251;
+//	connect sw300to350;
+//	connect sw450to451;
+//	connect sw95to195;
+//	object recorder {
+//		file "switch_output.csv";
+//		property "armed,status";
+//		interval -1;
+//	};
 
-}
+//}
