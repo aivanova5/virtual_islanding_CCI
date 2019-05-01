@@ -12,7 +12,14 @@
 #define WEATHER=WA-Yakima.tmy3
 #define TIMEZONE=US/CA/Los Angeles
 
-//#define LOADS
+//#define LOADS=on
+//#define XLOAD=yes
+//#define PVAREA
+//#define PVPROB
+
+//define MYSQL_AMI
+//#define SOLAR=on
+
 
 //#define VOLTDUMP
 //#define CURRDUMP
@@ -276,15 +283,62 @@ object switch {
 
 //Pure spot loads
 
-//object load {
-//	name load_1;
-//	groupid nodevolts;
-//	phases ABCN;
-//	constant_power_A 40000.000000+20000.000000j;
-//	nominal_voltage 2401.7771;
-//}
+object load {
+	name load_1;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
 
-// Lines 
+object load {
+	name load_2;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_B 20000.000000+10000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_4;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_C 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_5;
+	groupid nodevolts;
+	phases ABCN;
+	constant_current_C -0.557814+9.293330j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_6;
+	groupid nodevolts;
+	phases ABCN;
+	constant_impedance_C 115.370667+57.685333j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_7;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 20000.000000+10000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_9;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+// Network Lines 
 object overhead_line {
 	name line_002_201;
 	phases ABCN;
@@ -402,6 +456,89 @@ object overhead_line {
 	configuration lc_default;
 }
 
+
+//Lines between nodes and spot loads 
+object overhead_line {
+	name line_node101_load_101;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node102_load_102;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node103_load103;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node201_load201;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node202_load202;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node203_load203;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node301_load301;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node302_load302;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node303_load303;
+	phases ABCN;
+	from sw_303;
+	to node_203;
+	length 175.00;
+	configuration lc_default;
+}
+
 //Capacitors
 
 //object capacitor {
@@ -419,7 +556,7 @@ object overhead_line {
 //	switchC OPEN;
 //};
 
-#include "load.glm"
+#include "loads.glm"
 
 
 
