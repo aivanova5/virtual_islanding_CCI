@@ -1,0 +1,48 @@
+///////////////////////////////////////////////////////
+//
+// LOAD MODEL
+//
+///////////////////////////////////////////////////////
+module residential;
+object transformer_configuration {
+	name xfmr_config;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type POLETOP;
+	powerA_rating 75;
+	powerB_rating 75;
+	powerC_rating 75;
+	primary_voltage 2401;
+	secondary_voltage 120.000;
+	impedance 0.006+0.0136j;
+}
+
+class solar {
+	double installed;
+}
+
+
+// load/solar connection
+object transformer {
+	name xfrm_1A;
+	phases AS;
+	from load_1;
+	to node_103;
+	configuration xfmr_config;
+}
+object triplex_node {
+	name node_1A;
+	phases AS;
+	nominal_voltage 120;
+}
+object triplex_meter:..500 { 
+	name `meter_{SEQ_CUSTID:INC}`;
+	parent node_1A;
+	phases AS;
+	nominal_voltage 120;
+#ifdef LOADS
+	object house { 
+		floor_area random.triangle(1000,2000);
+		name `house_{SEQ_CUSTID}`;
+	}; 
+#endif // LOADS
+}
