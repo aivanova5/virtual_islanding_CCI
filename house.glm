@@ -82,6 +82,7 @@ object triplex_meter:..${COUNT} {
 	object house { 
 		floor_area random.triangle(1000,2000);
 		name `house_{SEQ_CUSTID}`;
+		
 	}; 
 #endif // LOADS
 #if MYSQL_AMI==on
