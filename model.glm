@@ -6,10 +6,12 @@
 //
 ///////////////////////////////////////////////////////
 
-#define STARTTIME=2018-01-01 00:00:00 PST
-#define STOPTIME=2018-01-01 01:00:00 PST
+#set suppress_repeat_messages=0
 
-#define WEATHER=WA-Yakima.tmy3
+#define STARTTIME=2018-01-01 00:00:00 PST
+#define STOPTIME=2018-01-02 00:00:00 PST
+
+#define WEATHER=VT-Burlington_International_Ap.tmy3
 #define TIMEZONE=US/CA/Los Angeles
 
 #define LOADS=on
@@ -496,6 +498,21 @@ object overhead_line {
 	length 175.00;
 	configuration lc_default;
 }
+
+module generators;
+
+//object inverter {
+
+//}
+
+//object solar {
+//	generator_mode SUPPLY_DRIVEN;
+  //  generator_status ONLINE;
+ //   panel_type SINGLE_CRYSTAL_SILICON;
+ //   efficiency 0.2;
+ //   parent inverter1;
+ //   area 2500 sf;
+//}
 
 //Capacitors
 

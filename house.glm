@@ -22,7 +22,11 @@
 //
 //   #include using(AREA=A,LOADID=1,PHASE=A,COUNT=4) "load.glm"
 //
- 
+schedule waterheater_demand_prob {
+	* 5-21 * * * 0.99;
+	* 22-4 * * * 0.01;
+}
+
 // connect dynamics load
 #if LOADS==on
 #debug Converting area ${AREA} static load ${LOADID} phase ${PHASE} to ${COUNT} houses
@@ -56,6 +60,10 @@ class solar {
 #endif // PVPROB
 #endif // SOLAR
 
+class waterheater{
+	loadshape wh_shape;
+}
+
 #ifdef XLOAD
 // load/solar connection
 object transformer {
@@ -71,7 +79,8 @@ object triplex_node {
 	nominal_voltage 120;
 }
 object triplex_meter:..${COUNT} { 
-	name `meter_{SEQ_CUSTID:INC}`;
+	//name `meter_{SEQ_CUSTID:INC}`;
+	name meter_test;
 	groupid load_${LOADID};
 	parent node_${LOADID}${PHASE};
 	phases ${PHASE}S;
@@ -80,10 +89,30 @@ object triplex_meter:..${COUNT} {
 	longitude (load_${LOADID}.longitude);
 #ifdef LOADS
 	object house { 
+		name house_test;
 		floor_area random.triangle(1000,2000);
+		heating_setpoint 60 degF;
+		//cooling_setpoint 78 degF;
+		hvac_power_factor 0.75;
 		name `house_{SEQ_CUSTID}`;
+	//	object waterheater {
+	//		wh_shape "type: pulsed; schedule: waterheater_demand_prob; energy: 7.2 kWh; count: 6; power: 300 W";
+	//		tank_setpoint 140;
+	//		water_demand this.wh_shape*0.115; //scaling issue with loadshape/schedules 
+	//		heating_element_capacity 4500 W;
+	//		tank_volume 80 gal;
+	//		object recorder {
+	//			file wh_out.csv;
+	//			property power[kW],water_demand[gpm],energy[kWh];
+	//			interval 1 h;
+	//		};
+	//		power_factor 1.0;
+		//	power_fraction 0.0;
+		//	current_fraction 0.0;
+	//	};
 		
 	}; 
+	
 #endif // LOADS
 #if MYSQL_AMI==on
 	object recorder {
@@ -143,3 +172,10 @@ object triplex_meter:..${COUNT} {
 }
 #endif // XLOAD
 
+
+
+object multi_recorder{
+			property house_test:system_mode, house_test:heating_demand[kW], house_test:cooling_demand[kW];
+			file house_out.txt;
+			interval 1 h;
+}
