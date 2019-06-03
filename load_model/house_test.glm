@@ -57,7 +57,8 @@ object climate {
 
 
 module residential {
-	implicit_enduses NONE;
+	implicit_enduses REFRIGERATOR;
+//	implicit_enduses NONE;
 }
 module powerflow;
 module tape;
@@ -70,6 +71,7 @@ class house{
 }
 
 object triplex_meter:..${COUNT} {
+//object triplex_meter{
 	name `meter_{SEQ_CUSTID:INC}`;
 	nominal_voltage 120;
 	phases AS;
@@ -93,8 +95,9 @@ object triplex_meter:..${COUNT} {
 			tank_volume 50 gal;
 			object recorder {
 				file `output/wh_out_{SEQ_CUSTID}.csv`;
-				property power[kW],water_demand[gpm],energy[kWh];
-				interval 1 h;
+				property actual_load[kW], water_demand[gpm], energy[kVAh];
+				//property power[kW],water_demand[gpm],energy[kWh];
+				interval 1 min;
 			};
 			power_factor 1.0;
 			power_fraction 0.0;
@@ -113,7 +116,7 @@ object multi_recorder{
 	property meter_1:measured_real_power[kW], meter_1:measured_reactive_power[kVA];
 	property meter_1:measured_real_energy[kWh];
 	file "output/house_out.csv";
-	interval 1 h;
+	interval 1 min;
 #ifdef RECORDTIME
 	in_svc ${RECORDTIME};
 #endif //RECORDTIME
