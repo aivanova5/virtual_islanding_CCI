@@ -1,0 +1,34 @@
+// IEEE-123 dynamic loads
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
+module residential{
+	implicit_enduses NONE;
+}
+object transformer_configuration {
+	name xfmr_config;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type POLETOP;
+	powerA_rating 10 MW;
+	powerB_rating 10 MW;
+	powerC_rating 10 MW;
+	primary_voltage 2401;
+	secondary_voltage 120.000;
+	impedance 0.006+0.0136j;
+}
+
+global int32 SEQ_CUSTID 0;
+#set allow_reinclude=true
+
+#include using(AREA=A,LOADID=101,PHASE=A,COUNT=1) "house.glm"
+//#include using(AREA=A,LOADID=101,PHASE=B,COUNT=167) "house.glm"
+//#include using(AREA=A,LOADID=101,PHASE=C,COUNT=167) "house.glm"
+//#include using(AREA=A,LOADID=102,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=103,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=201,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=202,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=203,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=301,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=302,PHASE=A,COUNT=500) "house.glm"
+//#include using(AREA=A,LOADID=303,PHASE=A,COUNT=500) "house.glm"
+
+#define NHOUSES=${SEQ_CUSTID}

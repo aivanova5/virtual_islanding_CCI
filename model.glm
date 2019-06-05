@@ -6,11 +6,22 @@
 //
 ///////////////////////////////////////////////////////
 
-#define STARTTIME=2018-01-01 00:00:00 PST
-#define STOPTIME=2019-01-01 00:00:00 PST
+#set suppress_repeat_messages=0
 
-#define WEATHER=WA-Yakima.tmy3
+#define STARTTIME=2018-01-01 00:00:00 PST
+#define STOPTIME=2018-01-02 00:00:00 PST
+
+#define WEATHER=VT-Burlington_International_Ap.tmy3
 #define TIMEZONE=US/CA/Los Angeles
+
+#define LOADS=on
+//#define XLOAD=yes
+//#define PVAREA
+//#define PVPROB
+
+#define MYSQL_AMI==off
+#define SOLAR=off
+
 
 //#define VOLTDUMP
 //#define CURRDUMP
@@ -29,7 +40,6 @@ clock {
 #error No timezone specified
 #endif // TIMEZONE
 
-global int32 SEQ_CUSTID 0;
 
 ///////////////////////////////////////////////////////
 //
@@ -88,6 +98,22 @@ object overhead_line_conductor {
 	resistance 0.306;
 	diameter 0.721;
 }
+
+object line_spacing {
+	name ls_default;
+	distance_AB 0.5;
+	distance_AC 1.0;
+	distance_BC 0.5;
+}
+
+object line_configuration {
+	name lc_default;
+	conductor_A olc_default;
+	conductor_B olc_default;
+	conductor_C olc_default;
+	conductor_N olc_default;
+	spacing ls_default;
+}
 /// UNDERGROUND LINE CONDUCTORS
 //object underground_line_conductor {
 //	name ulc_default;	//1/0 AA, CN
@@ -104,37 +130,37 @@ object overhead_line_conductor {
 //Transformer configurations
 object transformer_configuration {
 	name tc_default;
-	connect_type DELTA_DELTA;
+	connect_type DELTA_GWYE;
 	install_type PADMOUNT;
-	power_rating 150.0 kVA;
-	primary_voltage 4160.0;
-	secondary_voltage 480.0;
-	resistance 0.0127;
-	reactance 0.0272;
+	power_rating 5.0 MVA;
+	primary_voltage 12.47 kV;
+	secondary_voltage 2401.7771;
+	resistance 0.01;
+	reactance 0.08;
 }
 
 // Regulator configs
-object regulator_configuration {
-	name rc_default;
-	connect_type WYE_WYE;
-	band_center 2400.000;
-	band_width 40.0;
-	time_delay 30.0;
-	raise_taps 16;
-	lower_taps 16;
-	current_transducer_ratio 700;
-	power_transducer_ratio 20;
-	compensator_r_setting_A 3.0;
-	compensator_x_setting_A 7.5;
-	CT_phase "A";
-	PT_phase "A";
-	regulation 0.10;
-	Control OUTPUT_VOLTAGE;
-	Type A;
-	tap_pos_A 0;
-	tap_pos_B 0;
-	tap_pos_C 0;
-}
+//object regulator_configuration {
+//	name rc_default;
+//	connect_type WYE_WYE;
+//	band_center 2400.000;
+//	band_width 40.0;
+//	time_delay 30.0;
+//	raise_taps 16;
+//	lower_taps 16;
+//	current_transducer_ratio 700;
+//	power_transducer_ratio 20;
+//	compensator_r_setting_A 3.0;
+//	compensator_x_setting_A 7.5;
+//	CT_phase "A";
+//	PT_phase "A";
+//	regulation 0.10;
+//	Control OUTPUT_VOLTAGE;
+//	Type A;
+//	tap_pos_A 0;
+//	tap_pos_B 0;
+//	tap_pos_C 0;
+//}
 
 
 //
@@ -147,7 +173,7 @@ object transformer {
 	phases ABCN;
 	from node_001;
 	to node_002;
-	configuration tf_default;
+	configuration tc_default;
 }
 
 //Pure nodes
@@ -155,7 +181,7 @@ object node {
 	name node_001;
 	phases ABCN;
 	bustype SWING;
-	nominal_voltage 2401.7771;
+	nominal_voltage 12.47 kV;
 }
 
 object node {
@@ -165,140 +191,174 @@ object node {
 }
 
 object node {
-	name node_003;
+	name node_101;
 	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
-	name node_101;
-	phases AN;
-	nominal_voltage 2401.7771;
-}
-
-object node {
 	name node_102;
-	phases AN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_103;
-	phases AN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_201;
-	phases BN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_202;
-	phases BN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_203;
-	phases BN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_301;
-	phases CN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_302;
-	phases CN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 object node {
 	name node_303;
-	phases CN;
+	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
 //Switches 
 object switch {
 	name sw_101;
-	from node_201; 
+	from node_002; 
 	to node_101;
-	phases ABCN;
-	status CLOSED;
-}
-object switch {
-	name sw_301;
-	from node_201; 
-	to node_301;
-	phases ABCN;
-	status CLOSED;
-}
-object switch {
-	name sw_202;
-	from node_201; 
-	to node_202;
 	phases ABCN;
 	status CLOSED;
 }
 
 object switch {
-	name sw_103;
-	from node_201; 
-	to node_203;
+	name sw_201;
+	from node_002; 
+	to node_201;
 	phases ABCN;
-	status OPEN;
+	status CLOSED;
+}
+
+object switch {
+	name sw_301;
+	from node_002; 
+	to node_301;
+	phases ABCN;
+	status CLOSED;
 }
 object switch {
+	name sw_103;
+	from node_103; 
+	to node_203;
+	phases ABCN;
+	status CLOSED;
+}
+
+object switch {
 	name sw_303;
-	from node_203; 
-	to node_301;
+	from node_303; 
+	to node_203;
 	phases ABCN;
 	status OPEN;
 }
 
 //Pure spot loads
 
-//object load {
-//	name load_1;
-//	groupid nodevolts;
-//	phases ABCN;
-//	constant_power_A 40000.000000+20000.000000j;
-//	nominal_voltage 2401.7771;
-//}
-
-// Lines 
-object overhead_line {
-	name line_002_201;
+object load {
+	name load_101;
+	groupid nodevolts;
 	phases ABCN;
-	from node_002;
-	to node_201;
-	length 175.00;
-	configuration olc_default;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
 }
 
-object overhead_line {
-	name line_node201_sw101;
+object load {
+	name load_102;
+	groupid nodevolts;
 	phases ABCN;
-	from node_201;
-	to sw_101;
-	length 175.00;
-	configuration olc_default;
+	constant_power_B 20000.000000+10000.000000j;
+	nominal_voltage 2401.7771;
 }
 
-object overhead_line {
-	name line_sw101_node101;
+object load {
+	name load_103;
+	groupid nodevolts;
 	phases ABCN;
-	from sw_101;
-	to node_101;
-	length 175.00;
-	configuration olc_default;
+	constant_power_C 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
 }
+
+object load {
+	name load_201;
+	groupid nodevolts;
+	phases ABCN;
+	constant_current_C -0.557814+9.293330j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_202;
+	groupid nodevolts;
+	phases ABCN;
+	constant_impedance_C 115.370667+57.685333j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_203;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 20000.000000+10000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_301;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_302;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_303;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+// Network Lines 
 
 object overhead_line {
 	name line_node101_node102;
@@ -306,7 +366,7 @@ object overhead_line {
 	from node_101;
 	to node_102;
 	length 175.00;
-	configuration olc_default;
+	configuration lc_default;
 }
 
 object overhead_line {
@@ -315,34 +375,16 @@ object overhead_line {
 	from node_102;
 	to node_103;
 	length 175.00;
-	configuration olc_default;
+	configuration lc_default;
 }
 
 object overhead_line {
-	name line_node103_sw103;
-	phases ABCN;
-	from node_103;
-	to sw_103;
-	length 175.00;
-	configuration olc_default;
-}
-
-object overhead_line {
-	name line_sw103_node203;
-	phases ABCN;
-	from sw_103;
-	to node_203;
-	length 175.00;
-	configuration olc_default;
-}
-
-object overhead_line {
-	name line_node201_sw202;
+	name line_node201_node202;
 	phases ABCN;
 	from node_201;
-	to sw_202;
+	to node_202;
 	length 175.00;
-	configuration olc_default;
+	configuration lc_default;
 }
 
 object overhead_line {
@@ -351,17 +393,9 @@ object overhead_line {
 	from node_202;
 	to node_203;
 	length 175.00;
-	configuration olc_default;
+	configuration lc_default;
 }
 
-object overhead_line {
-	name line_node201_sw301;
-	phases ABCN;
-	from node_201;
-	to sw_301;
-	length 175.00;
-	configuration olc_default;
-}
 
 object overhead_line {
 	name line_node301_node302;
@@ -369,26 +403,116 @@ object overhead_line {
 	from node_301;
 	to node_302;
 	length 175.00;
-	configuration olc_default;
+	configuration lc_default;
+}
+
+
+object overhead_line {
+	name line_node302_node303;
+	phases ABCN;
+	from node_302;
+	to node_303;
+	length 175.00;
+	configuration lc_default;
+}
+
+
+//Lines between nodes and spot loads 
+object overhead_line {
+	name line_node101_load101;
+	phases ABCN;
+	from node_101;
+	to load_101;
+	length 175.00;
+	configuration lc_default;
 }
 
 object overhead_line {
-	name line_node303_sw303;
+	name line_node102_load102;
+	phases ABCN;
+	from node_102;
+	to load_102;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node103_load103;
+	phases ABCN;
+	from node_103;
+	to load_103;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node201_load201;
+	phases ABCN;
+	from node_201;
+	to load_201;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node202_load202;
+	phases ABCN;
+	from node_202;
+	to load_202;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node203_load203;
+	phases ABCN;
+	from node_203;
+	to load_203;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node301_load301;
+	phases ABCN;
+	from node_301;
+	to load_301;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node302_load302;
+	phases ABCN;
+	from node_302;
+	to load_302;
+	length 175.00;
+	configuration lc_default;
+}
+
+object overhead_line {
+	name line_node303_load303;
 	phases ABCN;
 	from node_303;
-	to sw_303;
+	to load_303;
 	length 175.00;
-	configuration olc_default;
+	configuration lc_default;
 }
 
-object overhead_line {
-	name line_sw303_node203;
-	phases ABCN;
-	from sw303;
-	to node_203;
-	length 175.00;
-	configuration olc_default;
-}
+module generators;
+
+//object inverter {
+
+//}
+
+//object solar {
+//	generator_mode SUPPLY_DRIVEN;
+  //  generator_status ONLINE;
+ //   panel_type SINGLE_CRYSTAL_SILICON;
+ //   efficiency 0.2;
+ //   parent inverter1;
+ //   area 2500 sf;
+//}
 
 //Capacitors
 
@@ -407,83 +531,9 @@ object overhead_line {
 //	switchC OPEN;
 //};
 
-
-///////////////////////////////////////////////////////
-//
-// LOAD MODEL
-//
-///////////////////////////////////////////////////////
-module residential;
-object transformer_configuration {
-	name xfmr_config;
-	connect_type SINGLE_PHASE_CENTER_TAPPED;
-	install_type POLETOP;
-	powerA_rating 75;
-	powerB_rating 75;
-	powerC_rating 75;
-	primary_voltage 2401;
-	secondary_voltage 120.000;
-	impedance 0.006+0.0136j;
-}
-
-class solar {
-	double installed;
-}
+#include "loads.glm"
 
 
-// load/solar connection
-object transformer {
-	name xfrm_1A;
-	phases AS;
-	from load_1;
-	to node_1A;
-	configuration xfmr_config;
-}
-object triplex_node {
-	name node_1A;
-	phases AS;
-	nominal_voltage 120;
-}
-object triplex_meter:..500 { 
-	name `meter_{SEQ_CUSTID:INC}`;
-	parent node_1A;
-	phases AS;
-	nominal_voltage 120;
-	latitude (load_1.latitude);
-	longitude (load_1.longitude);
-#ifdef LOADS
-	object house { 
-		floor_area random.triangle(1000,2000);
-		name `house_{SEQ_CUSTID}`;
-	}; 
-#endif // LOADS
-	object inverter {
-		name `inverter_{SEQ_CUSTID}`;
-		phases AS;
-		rated_power 25000;	
-		generator_mode CONSTANT_PF;
-		generator_status ONLINE;
-		inverter_efficiency 0.9;
-		inverter_type PWM;
-		object solar {
-			name `solar_{SEQ_CUSTID}`;
-			phases AS;
-#ifndef PVAREA
-			area 350 sf;
-#else
-			area ${PVAREA};
-#endif // PVAREA
-#ifndef PVPROB
-			generator_status ONLINE;
-#else
-			installed random.bernoulli(${PVPROB});
-			generator_status ($installed) ? OFFLINE : ONLINE; 
-#endif // PVPROB
-			generator_mode SUPPLY_DRIVEN;
-			panel_type SINGLE_CRYSTAL_SILICON;
-		};
-	};
-}
 
 
 //
