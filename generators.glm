@@ -1,0 +1,14 @@
+module generators;
+
+//object inverter {
+
+//}
+
+//object solar {
+//	generator_mode SUPPLY_DRIVEN;
+  //  generator_status ONLINE;
+ //   panel_type SINGLE_CRYSTAL_SILICON;
+ //   efficiency 0.2;
+ //   parent inverter1;
+ //   area 2500 sf;
+//}

@@ -1,0 +1,52 @@
+script on_term "python voltdump.py";
+
+object voltdump {
+	filemode "a";
+	filename "output/volt_dump.csv";
+	on_init "mkdir -p output; rm -rf output/power_dump_*.csv output/volt_dump.csv";
+#ifdef STARTRECORDTIME
+	in_svc ${STARTRECORDTIME};
+#endif //STARTRECORDTIME
+	interval 60;
+}
+
+object currdump {
+	filemode "a";
+	filename "output/curr_dump.csv";
+	on_init "mkdir -p output; rm -rf output/curr_dump_*.csv ";
+#ifdef STARTRECORDTIME
+	in_svc ${STARTRECORDTIME};
+#endif //STARTRECORDTIME
+	interval 60;
+}
+module tape {
+	flush_interval 0;
+}
+
+object multi_recorder {
+	property meter_1:measured_power, meter_2:measured_power, meter_3:measured_power, meter_4:measured_power, meter_5:measured_power, meter_6:measured_power, meter_7:measured_power, meter_8:measured_power, meter_9:measured_power, meter_10:measured_power, meter_11:measured_power, meter_12:measured_power, meter_13:measured_power, meter_14:measured_power, meter_15:measured_power, meter_16:measured_power, meter_17:measured_power, meter_18:measured_power, meter_19:measured_power, meter_20:measured_power, meter_21:measured_power, meter_22:measured_power, meter_23:measured_power, meter_24:measured_power, meter_25:measured_power, meter_26:measured_power, meter_27:measured_power, meter_28:measured_power, meter_29:measured_power, meter_30:measured_power;
+	file "output/power_dump_1.csv";
+	interval 60;
+#ifdef STARTRECORDTIME
+	in_svc ${STARTRECORDTIME};
+#endif //STARTRECORDTIME
+}
+
+object multi_recorder {
+	property meter_31:measured_power, meter_32:measured_power, meter_33:measured_power, meter_34:measured_power, meter_35:measured_power, meter_36:measured_power, meter_37:measured_power, meter_38:measured_power, meter_39:measured_power, meter_40:measured_power, meter_41:measured_power, meter_42:measured_power, meter_43:measured_power, meter_44:measured_power, meter_45:measured_power, meter_46:measured_power, meter_47:measured_power, meter_48:measured_power, meter_49:measured_power, meter_50:measured_power, meter_51:measured_power, meter_52:measured_power, meter_53:measured_power, meter_54:measured_power, meter_55:measured_power, meter_56:measured_power, meter_57:measured_power, meter_58:measured_power, meter_59:measured_power, meter_60:measured_power;
+	file "output/power_dump_2.csv";
+	interval 60;
+#ifdef STARTRECORDTIME
+	in_svc ${STARTRECORDTIME};
+#endif //STARTRECORDTIME
+}
+
+object multi_recorder {
+	property meter_61:measured_power, meter_62:measured_power, meter_63:measured_power, meter_64:measured_power, meter_65:measured_power, meter_66:measured_power, meter_67:measured_power, meter_68:measured_power, meter_69:measured_power, meter_70:measured_power, meter_71:measured_power, meter_72:measured_power, meter_73:measured_power, meter_74:measured_power, meter_75:measured_power, meter_76:measured_power, meter_77:measured_power, meter_78:measured_power, meter_79:measured_power, meter_80:measured_power, meter_81:measured_power, meter_82:measured_power, meter_83:measured_power, meter_84:measured_power, meter_85:measured_power, meter_86:measured_power, meter_87:measured_power, meter_88:measured_power, meter_89:measured_power, meter_90:measured_power;
+	file "output/power_dump_3.csv";
+	interval 60;
+#ifdef STARTRECORDTIME
+	in_svc ${STARTRECORDTIME};
+#endif //STARTRECORDTIME
+}
+

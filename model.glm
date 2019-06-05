@@ -20,9 +20,9 @@ module packetized;
 #if LOCATION==BUR_VT 
 #define WEATHER=VT-Burlington_International_Ap.tmy3
 #endif //LOCATION
-//#if LOCATION==LA_CA
-//#define WEATHER=
-//#endif //LOCATION
+#if LOCATION==LA_CA
+#define WEATHER=CA-Los_Angeles_Intl_Arpt.tmy3
+#endif //LOCATION
 
 #ifdef TIMEZONE
 clock {
@@ -68,18 +68,8 @@ module powerflow {
 module generators; // ENABLES SOLAR
 module tape;
 
-#ifdef VOLTDUMP
-object voltdump {
-	filename ${VOLTDUMP};
-	group "nodevolts";
-	mode polar;
-}
-#endif // VOLTDUMP
-
-#ifdef CURRDUMP
-object currdump {
-	filename ${CURRDUMP};
-}
+#if VOLT_POWER_DUMP==all
+#include "voltpower_dump.glm"
 #endif // CURRDUMP
 
 //
@@ -156,23 +146,7 @@ object switch {
 	status OPEN;
 }
 
-
-
-
-module generators;
-
-//object inverter {
-
-//}
-
-//object solar {
-//	generator_mode SUPPLY_DRIVEN;
-  //  generator_status ONLINE;
- //   panel_type SINGLE_CRYSTAL_SILICON;
- //   efficiency 0.2;
- //   parent inverter1;
- //   area 2500 sf;
-//}
+#include "generators.glm"
 #include "loads.glm"
 
 //
