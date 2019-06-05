@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////
 
 module packetized;
-#set suppress_repeat_messages=0
+//#set suppress_repeat_messages=0
 
 //////////////CONFIG//////////////////////////////////
 #ifexist config.glm
@@ -37,7 +37,6 @@ clock {
 #else
 #error No timezone specified
 #endif // TIMEZONE
-
 
 ///////////////////////////////////////////////////////
 //
@@ -80,7 +79,6 @@ object voltdump {
 #ifdef CURRDUMP
 object currdump {
 	filename ${CURRDUMP};
-	mode rect;
 }
 #endif // CURRDUMP
 

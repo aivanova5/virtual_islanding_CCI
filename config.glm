@@ -9,10 +9,10 @@
 #define LOCATION=BUR_VT //LA_CA //BUR_VT
 
 #define COUNT=10
-#define LOADS = on
+#define LOADS=on
 
 #define MYSQL_AMI=off
 #define SOLAR=off
 
-#define VOLTDUMP
-#define CURRDUMP
+#define VOLTDUMP="output/voltdump.csv"
+#define CURRDUMP="output/currdump.csv"
