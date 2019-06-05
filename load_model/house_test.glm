@@ -1,0 +1,123 @@
+
+module packetized;
+global int32 SEQ_CUSTID 0;
+
+#ifexist config.glm
+#include "config.glm"
+#else 
+#error No Config file specified
+#endif //config.glm
+
+#if LOCATION==BUR_VT 
+#define WEATHER=VT-Burlington_International_Ap.tmy3
+#endif //LOCATION
+//#if LOCATION==LA_CA
+//#define WEATHER=
+//#endif //LOCATION
+
+#ifdef TIMEZONE
+clock {
+	timezone ${TIMEZONE};
+#ifdef STARTTIME
+	starttime ${STARTTIME};
+#endif
+#ifdef STOPTIME
+	stoptime ${STOPTIME};
+#endif
+}
+#else
+#error No timezone specified
+#endif // TIMEZONE
+
+
+schedule waterheater_demand_prob {
+	* 5-21 * * * 0.99;
+	* 22-4 * * * 0.01;
+}
+
+
+
+///////////////////////////////////////////////////////
+//
+// WEATHER
+//
+///////////////////////////////////////////////////////
+#ifexist data/${WEATHER}
+module climate;
+object climate {
+        name weather;
+        tmyfile "data/${WEATHER}";
+        interpolate QUADRATIC;
+}
+#else
+#error No weather specified.
+#endif // exist WEATHER
+
+
+module residential {
+	implicit_enduses REFRIGERATOR;
+//	implicit_enduses NONE;
+}
+module powerflow;
+module tape;
+
+
+class waterheater{
+	loadshape wh_shape;
+}
+class house{
+	bool packetized_test;
+}
+
+object triplex_meter:..${COUNT} {
+//object triplex_meter{
+	name `meter_{SEQ_CUSTID:INC}`;
+	nominal_voltage 120;
+	phases AS;
+	object house { 
+		name `house_{SEQ_CUSTID}`;
+		floor_area random.triangle(1000,1500);
+		cooling_setpoint 76 degF;
+		heating_setpoint 65 degF;
+		hvac_power_factor 0.75;
+#if LOCATION == BUR_VT
+		thermal_integrity_level VERY_GOOD;
+#endif //LOCATION
+#if LOCATION == LA_CA
+		thermal_integrity_level ABOVE_NORMAL;
+#endif //LOCATION
+		on_commit "python:packetized.absorption";
+		object waterheater {
+			wh_shape "type: pulsed; schedule: waterheater_demand_prob; energy: 7.2 kWh; count: 6; power: 300 W";
+			tank_setpoint 140;
+			water_demand this.wh_shape*0.165; //scaling issue with loadshape/schedules 
+			heating_element_capacity 4500 W;
+			tank_volume 50 gal;
+			object recorder {
+				file `output/wh_out_{SEQ_CUSTID}.csv`;
+				property actual_load[kW], water_demand[gpm], energy[kVAh];
+				//property power[kW],water_demand[gpm],energy[kWh];
+				interval 1 min;
+			};
+			power_factor 1.0;
+			power_fraction 0.0;
+			current_fraction 0.0;
+		};
+		
+	}; 
+} //triplex meter
+
+
+
+object multi_recorder{
+	property weather:temperature[degF];
+	property house_1:air_temperature[degF];
+	property house_1:system_mode, house_1:hvac_power[kVA];
+	property meter_1:measured_real_power[kW], meter_1:measured_reactive_power[kVA];
+	property meter_1:measured_real_energy[kWh];
+	file "output/house_out.csv";
+	interval 1 min;
+#ifdef RECORDTIME
+	in_svc ${RECORDTIME};
+#endif //RECORDTIME
+}
