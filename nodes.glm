@@ -1,0 +1,141 @@
+//Pure nodes
+object node {
+	name node_001;
+	phases ABCN;
+	bustype SWING;
+	nominal_voltage 12.47 kV;
+}
+
+object node {
+	name node_002;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_101;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_102;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_103;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_201;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_202;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_203;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_301;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_302;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+object node {
+	name node_303;
+	phases ABCN;
+	nominal_voltage 2401.7771;
+}
+
+//Pure spot loads
+
+object load {
+	name load_101;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_102;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_B 20000.000000+10000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_103;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_C 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_201;
+	groupid nodevolts;
+	phases ABCN;
+	constant_current_C -0.557814+9.293330j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_202;
+	groupid nodevolts;
+	phases ABCN;
+	constant_impedance_C 115.370667+57.685333j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_203;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 20000.000000+10000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_301;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_302;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
+
+object load {
+	name load_303;
+	groupid nodevolts;
+	phases ABCN;
+	constant_power_A 40000.000000+20000.000000j;
+	nominal_voltage 2401.7771;
+}
