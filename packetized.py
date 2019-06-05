@@ -20,7 +20,7 @@ def absorption(name,t) :
   houses = find("class=house") #finds all the house names 
   for house_id in houses : 
     gridlabd.set_value(house_id,"thermostat_control","NONE") #disables internal controls
-    print(house_id, "Air temperature ->", gridlabd.get_value(house_id,"air_temperature"), "Setpoint (heat) ->", gridlabd.get_value(house_id,"heating_setpoint"),"Setpoint (cool) ->", gridlabd.get_value(house_id,"cooling_setpoint"))
+    #print(house_id, "Air temperature ->", gridlabd.get_value(house_id,"air_temperature"), "Setpoint (heat) ->", gridlabd.get_value(house_id,"heating_setpoint"),"Setpoint (cool) ->", gridlabd.get_value(house_id,"cooling_setpoint"))
     T_air = gridlabd.get_value(house_id,"air_temperature")
     T_heat = gridlabd.get_value(house_id,"heating_setpoint")
     T_cool = gridlabd.get_value(house_id,"cooling_setpoint")
@@ -30,7 +30,7 @@ def absorption(name,t) :
       gridlabd.set_value(house_id, "system_mode", "OFF") 
     if T_air > T_cool : 
       gridlabd.set_value(house_id, "system_mode", "COOL") 
-    print("System mode ->", gridlabd.get_value(house_id,"system_mode"))
+    #print("System mode ->", gridlabd.get_value(house_id,"system_mode"))
   return True
 
 def balancing(name,t) : 

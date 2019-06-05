@@ -18,13 +18,13 @@ object node {
 	nominal_voltage 2401.7771;
 }
 
-object node {
+object meter {
 	name node_102;
 	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
-object node {
+object meter {
 	name node_103;
 	phases ABCN;
 	nominal_voltage 2401.7771;
@@ -36,13 +36,13 @@ object node {
 	nominal_voltage 2401.7771;
 }
 
-object node {
+object meter {
 	name node_202;
 	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
-object node {
+object meter {
 	name node_203;
 	phases ABCN;
 	nominal_voltage 2401.7771;
@@ -54,13 +54,13 @@ object node {
 	nominal_voltage 2401.7771;
 }
 
-object node {
+object meter {
 	name node_302;
 	phases ABCN;
 	nominal_voltage 2401.7771;
 }
 
-object node {
+object meter {
 	name node_303;
 	phases ABCN;
 	nominal_voltage 2401.7771;

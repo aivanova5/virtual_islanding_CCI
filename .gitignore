@@ -3,3 +3,5 @@
 load_model/output
 __pycache__/
 output.json
+output/
+gridlabd.json

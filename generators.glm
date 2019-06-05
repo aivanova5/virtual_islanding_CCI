@@ -1,14 +1,150 @@
 module generators;
 
-//object inverter {
 
-//}
+/////////////////////SOLAR///////////////////
+object inverter {
+	name inv_102;
+	phases AS;
+	parent node_102;
+	rated_power 15 MW;
+	generator_status ONLINE;
+	inverter_type PWM;
+	generator_mode CONSTANT_PF;
+	inverter_efficiency 0.95;
+}
 
-//object solar {
-//	generator_mode SUPPLY_DRIVEN;
-  //  generator_status ONLINE;
- //   panel_type SINGLE_CRYSTAL_SILICON;
- //   efficiency 0.2;
- //   parent inverter1;
- //   area 2500 sf;
-//}
+object solar {
+	generator_mode SUPPLY_DRIVEN;
+    generator_status ONLINE;
+    panel_type SINGLE_CRYSTAL_SILICON;
+    parent inv_102;
+    rated_power 3 MW;
+    //weather 
+ //   object recorder {
+	//	property "Insolation,VA_Out.real[kVA]";
+	//	file "output/solar_gen";
+	//	interval 3600;
+	//};
+}
+
+object inverter {
+	name inv_202;
+	phases AS;
+	parent node_202;
+	rated_power 15 MW;
+	generator_status ONLINE;
+	inverter_type PWM;
+	generator_mode CONSTANT_PF;
+	inverter_efficiency 0.95;
+}
+
+object solar {
+	generator_mode SUPPLY_DRIVEN;
+    generator_status ONLINE;
+    panel_type SINGLE_CRYSTAL_SILICON;
+    parent inv_202;
+    rated_power 3 MW;
+    //weather 
+}
+
+object inverter {
+	name inv_302;
+	phases AS;
+	parent node_302;
+	rated_power 15 MW;
+	generator_status ONLINE;
+	inverter_type PWM;
+	generator_mode CONSTANT_PF;
+	inverter_efficiency 0.95;
+}
+
+object solar {
+	generator_mode SUPPLY_DRIVEN;
+    generator_status ONLINE;
+    panel_type SINGLE_CRYSTAL_SILICON;
+    parent inv_302;
+    rated_power 3 MW;
+    //weather 
+}
+
+/////////////////////BATTERY///////////////////
+object inverter {
+    name inv_103;
+	parent node_103;
+    inverter_type FOUR_QUADRANT;
+    four_quadrant_control_mode CONSTANT_PQ;
+	generator_mode CONSTANT_PQ; //Not effectively used, just tired of seeing Warning
+	generator_status ONLINE;
+	inverter_efficiency 1.0;
+    rated_power 15 MW;		//Per phase rating
+//	charge_on_threshold 5.0 kW;
+//	charge_off_threshold 7.0 kW;
+//	discharge_off_threshold 7.5 kW;
+//	discharge_on_threshold 9.0 kW;
+//	max_discharge_rate 1.0 kW;
+//	max_charge_rate 0.80 kW;
+}
+object battery {
+	name battery_103;
+	parent inv_103;
+	use_internal_battery_model true;
+	battery_type LI_ION;
+	Energy 3 MWh;
+	base_efficiency 1.0;
+	state_of_charge 1.0;
+	generator_mode SUPPLY_DRIVEN;
+}
+
+object inverter {
+    name inv_203;
+	parent node_203;
+    inverter_type FOUR_QUADRANT;
+    four_quadrant_control_mode CONSTANT_PQ;
+	generator_mode CONSTANT_PQ; //Not effectively used, just tired of seeing Warning
+	generator_status ONLINE;
+	inverter_efficiency 1.0;
+    rated_power 15 MW;		//Per phase rating
+//	charge_on_threshold 5.0 kW;
+//	charge_off_threshold 7.0 kW;
+//	discharge_off_threshold 7.5 kW;
+//	discharge_on_threshold 9.0 kW;
+//	max_discharge_rate 1.0 kW;
+//	max_charge_rate 0.80 kW;
+}
+object battery {
+	name battery_203;
+	parent inv_203;
+	use_internal_battery_model true;
+	battery_type LI_ION;
+	Energy 3 MWh;
+	base_efficiency 1.0;
+	state_of_charge 1.0;
+	generator_mode SUPPLY_DRIVEN;
+}
+
+object inverter {
+    name inv_303;
+	parent node_303;
+    inverter_type FOUR_QUADRANT;
+    four_quadrant_control_mode CONSTANT_PQ;
+	generator_mode CONSTANT_PQ; //Not effectively used, just tired of seeing Warning
+	generator_status ONLINE;
+	inverter_efficiency 1.0;
+    rated_power 15 MW;		//Per phase rating
+//	charge_on_threshold 5.0 kW;
+//	charge_off_threshold 7.0 kW;
+//	discharge_off_threshold 7.5 kW;
+//	discharge_on_threshold 9.0 kW;
+//	max_discharge_rate 1.0 kW;
+//	max_charge_rate 0.80 kW;
+}
+object battery {
+	name battery_303;
+	parent inv_303;
+	use_internal_battery_model true;
+	battery_type LI_ION;
+	Energy 3 MWh;
+	base_efficiency 1.0;
+	state_of_charge 1.0;
+	generator_mode SUPPLY_DRIVEN;
+}
