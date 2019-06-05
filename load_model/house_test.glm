@@ -1,5 +1,5 @@
-//module load_test;
 
+module packetized;
 global int32 SEQ_CUSTID 0;
 
 #ifexist config.glm
@@ -35,9 +35,7 @@ schedule waterheater_demand_prob {
 	* 22-4 * * * 0.01;
 }
 
-//class house{
-//	bool packetized;
-//}
+
 
 ///////////////////////////////////////////////////////
 //
@@ -63,11 +61,12 @@ module residential {
 module powerflow;
 module tape;
 
+
 class waterheater{
 	loadshape wh_shape;
 }
 class house{
-	bool packetized;
+	bool packetized_test;
 }
 
 object triplex_meter:..${COUNT} {
@@ -87,10 +86,11 @@ object triplex_meter:..${COUNT} {
 #if LOCATION == LA_CA
 		thermal_integrity_level ABOVE_NORMAL;
 #endif //LOCATION
+		on_commit "python:packetized.absorption";
 		object waterheater {
 			wh_shape "type: pulsed; schedule: waterheater_demand_prob; energy: 7.2 kWh; count: 6; power: 300 W";
 			tank_setpoint 140;
-			water_demand this.wh_shape*0.115; //scaling issue with loadshape/schedules 
+			water_demand this.wh_shape*0.165; //scaling issue with loadshape/schedules 
 			heating_element_capacity 4500 W;
 			tank_volume 50 gal;
 			object recorder {
