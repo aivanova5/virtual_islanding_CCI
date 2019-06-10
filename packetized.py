@@ -16,9 +16,10 @@ def find(criteria) :
 def on_init(t) :
 	return True 
 
-def absorption(name,t) : 
-  houses = find("class=house") #finds all the house names 
-  for house_id in houses : 
+def absorption(house_id,t) : 
+#  houses = find("class=house") #finds all the house names 
+#  for house_id in houses : 
+    # SET FLAG FOR HVAC
     gridlabd.set_value(house_id,"thermostat_control","NONE") #disables internal controls
     #print(house_id, "Air temperature ->", gridlabd.get_value(house_id,"air_temperature"), "Setpoint (heat) ->", gridlabd.get_value(house_id,"heating_setpoint"),"Setpoint (cool) ->", gridlabd.get_value(house_id,"cooling_setpoint"))
     T_air = gridlabd.get_value(house_id,"air_temperature")
@@ -31,7 +32,8 @@ def absorption(name,t) :
     if T_air > T_cool : 
       gridlabd.set_value(house_id, "system_mode", "COOL") 
     #print("System mode ->", gridlabd.get_value(house_id,"system_mode"))
-  return True
+    # SET FLAG FOR WH 
+    return True
 
 def balancing(name,t) : 
 	return True
