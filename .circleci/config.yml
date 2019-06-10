@@ -14,5 +14,5 @@ jobs:
       - run:
           name: Run the simulation
           command: |
-            gridlabd model.glm
+            python3 main.py
             echo "Model finished"
